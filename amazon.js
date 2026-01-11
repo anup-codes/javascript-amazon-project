@@ -10,7 +10,7 @@ products.forEach((product) =>{
           </div>
 
           <div class="product-name limit-text-to-2-lines">
-            ${product.name}}
+            ${product.name}
           </div>
 
           <div class="product-rating-container">
@@ -26,7 +26,7 @@ products.forEach((product) =>{
           </div>
 
           <div class="product-quantity-container">
-            <select>
+            <select class = "js-quantity-selector-${product.id}">
               <option selected value="1">1</option>
               <option value="2">2</option>
               <option value="3">3</option>
@@ -42,7 +42,7 @@ products.forEach((product) =>{
 
           <div class="product-spacer"></div>
 
-          <div class="added-to-cart">
+          <div class="added-to-cart js-added-to-cart-${product.id}">
             <img src="images/icons/checkmark.png">
             Added
           </div>
@@ -61,7 +61,7 @@ document.querySelector('.js-products-grid').innerHTML = productsHTML;
 document.querySelectorAll('.js-add-to-cart').forEach((button) => {
   button.addEventListener('click', () => {
    const productId = button.dataset.productId;
-   
+  //  const {productId} =button.dataset;
 
   let matchingItem;
 
@@ -70,13 +70,19 @@ document.querySelectorAll('.js-add-to-cart').forEach((button) => {
        matchingItem = item;
     }
   });
- 
+   
+ const quantitySelector = document.querySelector(
+     `.js-quantity-selector-${productId}`
+   );
+  const quantity = Number(quantitySelector.value);
+
+
    if (matchingItem){
-    matchingItem.quantity += 1 ;
+    matchingItem.quantity += quantity;
    } else {
       cart.push({
-      productId: productId,
-      quantity : 1
+      productId,
+      quantity
    });
    }
 
@@ -85,12 +91,19 @@ document.querySelectorAll('.js-add-to-cart').forEach((button) => {
     cart.forEach((item) =>{
       cartQuantity += item.quantity;
     });
+   document.querySelector('.cart-quantity').innerHTML = cartQuantity;
 
-   document.querySelector('.cart-quantity').innerHTML= cartQuantity;
+    // ✅ ADDED MESSAGE LOGIC (CORRECT PLACE)
+    const addedMessage = document.querySelector(
+      `.js-added-to-cart-${productId}`
+    );
 
+    addedMessage.classList.add('added-to-cart-visible');
+    addedMessage.innerHTML = '<p>Added</p>';
 
-
-    console.log(cartQuantity);
-     console.log(cart);
+    // ✅ OPTIONAL: auto-hide after 2 sec
+    setTimeout(() => {
+      addedMessage.classList.remove('added-to-cart-visible');
+    }, 2000);
   });
 });             
