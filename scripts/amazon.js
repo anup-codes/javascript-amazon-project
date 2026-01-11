@@ -1,4 +1,4 @@
-
+import {cart} from '../data/cart.js' ;
 let productsHTML = '';
 
 products.forEach((product) =>{
@@ -93,7 +93,7 @@ document.querySelectorAll('.js-add-to-cart').forEach((button) => {
     });
    document.querySelector('.cart-quantity').innerHTML = cartQuantity;
 
-    // ✅ ADDED MESSAGE LOGIC (CORRECT PLACE)
+    
     const addedMessage = document.querySelector(
       `.js-added-to-cart-${productId}`
     );
@@ -101,7 +101,7 @@ document.querySelectorAll('.js-add-to-cart').forEach((button) => {
     addedMessage.classList.add('added-to-cart-visible');
     addedMessage.innerHTML = '<p>Added</p>';
 
-    // ✅ OPTIONAL: auto-hide after 2 sec
+    
     setTimeout(() => {
       addedMessage.classList.remove('added-to-cart-visible');
     }, 2000);
